@@ -1,0 +1,16 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+@font-face {
+    font-family: 'CopperplateBold';
+    src: url(../../fonts/Copperplate\ Gothic\ Bold\ Regular.ttf);
+}
+@font-face {
+    font-family: 'CopperplateRegular';
+    src: url(../../fonts/Copperplate\ Gothic\ Regular.otf);
+}
+body{
+    font-family: 'CopperplateBold';
+}
