@@ -14,3 +14,100 @@
 body{
     font-family: 'CopperplateBold';
 }
+.centralDiv{
+    margin-top: 7rem;
+    display: grid;
+    grid-template-columns: repeat(8,1fr);
+    grid-template-rows: repeat(8,1fr);
+}
+.globalEnergyDiv{
+    background-color: #DDE0A5;
+    grid-column: 1/5;
+    grid-row:1/5 ;
+}
+.globalTitle{
+    text-align: center;
+}
+.titleLayout{
+    margin-top: 1rem;
+}
+.globalText{
+    font-family:'CopperplateRegular' ;
+    margin: 5rem 1rem 10rem 1rem;
+    line-height: 1.4;             
+    letter-spacing: 1px;          
+    text-align: center; 
+    font-size: 18px;
+}
+
+.quantiumInternetDiv{
+    background-color: #F9FBD7;
+    grid-column:5/9 ;
+    grid-row: 1/3;
+}
+.quantiumTitle{
+    text-align: center;
+    margin-top: 1rem;
+}
+.quantiumText{
+    margin: 3rem 2rem 0 2rem;
+    font-family:'CopperplateRegular' ;
+    line-height: 1.4;             
+    letter-spacing: 1px; 
+    text-align: center;
+}
+
+.globalBankingDiv{
+    background-color: #B4B78D;
+    grid-column: 5/9;
+    grid-row:3/5 ;
+}
+.bankTitle{
+    text-align: center;
+    margin-top: 1rem;
+}
+.bankText{
+    margin: 1rem 1rem 0 1rem;
+    font-family:'CopperplateRegular' ;
+    line-height: 1.4;             
+    letter-spacing: 1px; 
+    text-align: center;
+}
+
+.marsDiv{
+    background-color: #B4B78D;
+    grid-column: 1/4;
+    grid-row: 5/9;
+}
+.marsTitle{
+    text-align: center;
+    margin: 4rem 1rem 0 1rem;
+}
+.marsText{
+    margin: 5rem 1rem 0 1rem;
+    font-family:'CopperplateRegular' ;
+    line-height: 1.4;             
+    letter-spacing: 1px; 
+    text-align: center;
+}
+.aiDiv{
+    background-color: #F9FBD7;
+    grid-column: 4/8;
+    grid-row: 5/9;
+}
+.robotDiv{
+    background-color: #DDE0A5;
+    grid-column: 8/9;
+    grid-row: 5/9;
+}
+.robotTitle{
+    text-align: center;
+    margin: 1rem;
+}
+.robotText{
+     margin: 1rem 1rem 0 1rem;
+    font-family:'CopperplateRegular' ;
+    line-height: 1.4;             
+    letter-spacing: 1px; 
+    text-align: center;
+}
