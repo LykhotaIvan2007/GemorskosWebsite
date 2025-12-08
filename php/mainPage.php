@@ -3,12 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="..//css/MainPage.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/MainPage.css">
     <link rel="stylesheet" href="../css/header.css">
     <title>Main page</title>
 </head>
 <body>
-    <?php include 'header.php'; ?>
+    <header>
+        <img class="gemorskosLogo" src="../images/gemorskosLogo.png" alt="logo">
+        <ul class="headerLinksUl">
+            <li><a class="headerLink" href="">Latest news</a></li>
+            <li><a class="headerLink"  href="">Top news</a></li>
+            <li><a class="headerLink" href="">News of all time</a></li>
+        </ul>
+        <ul class="foremployeesDiv">
+          <li><a class="employeesLink" href="">For employees</a></li>  
+          <img class="personImg" src="../images/personImage.png" alt="person">
+        </ul>
+    </header>
+
     <div class="centralDiv">
         <div class="globalEnergyDiv">
             <h1 class="globalTitle titleLayout">Global Energy Crisis Deepens as Arctic</h1>
@@ -36,5 +49,7 @@
             <p class="robotText">Reach us at “getmearobot.com”!  Our company does not guarantee that the robots won’t cause a hostile takeover.</p>
         </div>
     </div>
+
+    <?php include 'footer.php'; ?>
 </body>
 </html>
