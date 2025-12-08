@@ -21,13 +21,12 @@ a{
     text-decoration: none;
 }
 footer{
-    margin-top: 7rem;
     background-color: #F9FBD7;
 }
 .footerDiv{
     display: flex;
     justify-content: space-between;
-    margin: 0 4rem 0 4rem;
+    margin: 0 4rem 4rem;
     padding-top: 5rem;
 }
 .gemorDiv > p{
@@ -44,6 +43,7 @@ footer{
     justify-content: space-between;
     align-items: center;
     margin: 3rem 4rem 0 4rem;
+    padding-bottom: 3rem;
 }
 .hrFooter{
     border: 2px solid black;

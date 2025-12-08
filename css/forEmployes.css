@@ -1,18 +1,22 @@
-header{
-    display: flex;
-    justify-content: space-between;
-    padding: 0 2rem 0 2rem;
-    background-color: #F9FBD7;
+.centralUl{
+    margin:10rem 0 10rem 0;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(2,1fr);
 }
-.foremployeesDiv{
-    display: flex;
-    align-items: center;
+.centralUl >li>a{
+    display: block;
+    background-color: #DDE0A5;
+    text-align: center;
+    padding:10px 50px 10px 50px;
+    font-size: 30px;
+    color: #000000; 
 }
-.gemorskosLogo{
-    width: 7%;
+.secondLi{
+    margin-top: 2rem;
+    grid-row: 2/3;
+    grid-column: 2/3;
 }
-.employeesLink{
-    color: black;
-    font-family:'CopperplateRegular' ;
-    font-size: 15px;
+.firstLi{
+    grid-column: 2/3;
 }
