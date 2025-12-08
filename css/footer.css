@@ -1,3 +1,25 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+@font-face {
+    font-family: 'CopperplateBold';
+    src: url(../../fonts/Copperplate\ Gothic\ Bold\ Regular.ttf);
+}
+@font-face {
+    font-family: 'CopperplateRegular';
+    src: url(../../fonts/Copperplate\ Gothic\ Regular.otf);
+}
+body{
+    font-family: 'CopperplateBold';
+}
+ul{
+    list-style-type: none;
+}
+a{
+    text-decoration: none;
+}
 footer{
     margin-top: 7rem;
     background-color: #F9FBD7;

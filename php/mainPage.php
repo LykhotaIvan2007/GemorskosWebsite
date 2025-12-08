@@ -17,7 +17,7 @@
             <li><a class="headerLink" href="">News of all time</a></li>
         </ul>
         <ul class="foremployeesDiv">
-          <li><a class="employeesLink" href="">For employees</a></li>  
+          <li><a class="employeesLink" href="../php/forEmployeesPage.php">For employees</a></li>  
           <img class="personImg" src="../images/personImage.png" alt="person">
         </ul>
     </header>

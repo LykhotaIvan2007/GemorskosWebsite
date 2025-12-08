@@ -1,0 +1,18 @@
+header{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2rem 0 2rem;
+    background-color: #F9FBD7;
+}
+.foremployeesDiv{
+    display: flex;
+    align-items: center;
+}
+.gemorskosLogo{
+    width: 7%;
+}
+.employeesLink{
+    color: black;
+    font-family:'CopperplateRegular' ;
+    font-size: 15px;
+}
