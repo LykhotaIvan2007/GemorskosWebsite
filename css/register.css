@@ -9,6 +9,7 @@ form{
     flex-direction: column;
 }
 input{
+    font-size: 20px;
     width: 80%;
     height: 50px;
     border: none;

@@ -19,15 +19,15 @@
         </div>
         <div class="formDiv second">
             <label for="email">Email</label>
-            <input type="text" name="email" id="email">
+            <input type="email" name="email" id="email">
         </div>
         <div class="formDiv second">
             <label for="password">Password:</label>
-            <input type="text" name="password" id="password">
+            <input type="password" name="password" id="password">
         </div>
         <div class="formDiv second">
             <label for="password2">Password again:</label>
-            <input type="text" name="password2" id="password2">
+            <input type="password" name="password2" id="password2">
         </div>
         </div>
         <button name="log" class="submitButton">Log in</button>

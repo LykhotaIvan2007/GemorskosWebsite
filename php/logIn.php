@@ -19,7 +19,7 @@
         </div>
         <div class="formDiv second">
             <label for="password">Password:</label>
-            <input type="text" name="password" id="password">
+            <input type="password" name="password" id="password">
         </div>
         </div>
         <button name="log" class="submitButton">Log in</button>
