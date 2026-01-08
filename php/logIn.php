@@ -111,6 +111,7 @@ function printError(String $err)
                         $dbHandler=null;
                     }
                 }
+                echo "q";
                 header("Location:logIn.php");
                 exit;
         }
