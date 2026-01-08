@@ -1,6 +1,10 @@
 <?php 
 session_start();
-
+function printError(String $err)
+{
+    echo "<p>the followed error occured</p>
+            <p>{$err}</p>";
+}
     function logIn()
     {
         if(isset($_POST['log']))
@@ -11,11 +15,7 @@ session_start();
             $password=filter_input(INPUT_POST,"password",FILTER_SANITIZE_SPECIAL_CHARS);
             if(!empty($name)&&!empty($email)&&!empty($password))
             {
-                function printError(String $err)
-                {
-                    echo "<p>the followed error occured</p>
-                    <p>{$err}</p>";
-                }
+                
                 $dbHandler=null;
                 try
                 {
@@ -63,9 +63,56 @@ session_start();
 
     function createTable()
     {
-        if(isset($_POST['see']) && $_SESSION['check']=2)
+        if(isset($_POST['see']) && $_SESSION['check']==2)
         {
-
+             $dbHandler=null;
+                try
+                {
+                    $dbHandler = new PDO("mysql:host=localhost;port=3306;dbname=gemorskos;charset=utf8","root","root");
+                }catch(Exception $ex)
+                {
+                    printError($ex);
+                }
+                if($dbHandler)
+                {
+                    try
+                    {
+                        $stmt = $dbHandler->prepare("SELECT *
+                                                    FROM `users`");
+                    }catch(Exception $ex)
+                    {
+                        printError($ex);
+                    }
+                    if(isset($stmt))
+                    {
+                        $stmt->bindColumn("user_name",$username);
+                        $stmt->bindColumn("user_email",$useremail);
+                        $stmt->execute();
+                        echo "<table>
+                                <tr>
+                                    <th>User Name</th>
+                                    <th>Email</th>
+                                </tr>
+                                <tr>
+                                    <td>Иван</td>
+                                    <td>ivan@mail.com</td>
+                                    <td>25</td>
+                                
+                                ";
+                        while($result=$stmt->fetch())
+                        {
+                            echo "<tr>
+                            <td>{$username}</td>
+                            <td>{$useremail}</td>
+                            </tr>";
+                        }
+                        echo "</table>";
+                        $stmt->closeCursor();
+                        $dbHandler=null;
+                    }
+                }
+                header("Location:logIn.php");
+                exit;
         }
     }
 ?>
