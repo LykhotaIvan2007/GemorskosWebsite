@@ -1,3 +1,59 @@
+<?php 
+    function log()
+    {
+        if(isset($_POST['log']))
+        {
+            $name=filter_input(INPUT_POST,"userName",FILTER_SANITIZE_SPECIAL_CHARS);
+            $email=filter_input(INPUT_POST,"email",FILTER_SANITIZE_EMAIL);
+            $password=filter_input(INPUT_POST,"password",FILTER_SANITIZE_SPECIAL_CHARS);
+            if(!empty($name)&&!empty($email)&&!empty($password))
+            {
+                function printError(String $err)
+                {
+                    echo "<p>the followed error occured</p>
+                    <p>{$err}</p>";
+                }
+                $dbHandler=null;
+                try
+                {
+                    $dbHandler = new PDO("mysql:host=localhost;port=3306;dbname=gemorskos;charset=utf8","root","root");
+                }catch(Exception $ex)
+                {
+                    printError($ex);
+                }
+                if($dbHandler)
+                {
+                    try
+                    {
+                        $stmt = $dbHandler->prepare("SELECT *
+                                                    FROM `users`");
+                    }catch(Exception $ex)
+                    {
+                        printError($ex);
+                    }
+                    if(isset($stmt))
+                    {
+                        $stmt->bindColumn("user_name",$username);
+                        $stmt->bindColumn("user_email",$useremail);
+                        $stmt->bindColumn("user_password",$userpassword);
+                        $stmt->execute();
+                        while($result=$stmt->fetch())
+                        {
+                            if($name==$username && $email==$useremail && $password==$userpassword)
+                            {
+                                echo "<p>you successfully registered</p>";
+                                header("Location:logIn.php?reg=1");
+                                exit;
+                                return;
+                            }
+                        }
+                        $stmt->closeCursor();
+                    }
+                }
+            }
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +72,10 @@
         <div class="formDiv">
             <label for="name">Username:</label>
             <input type="text" name="userName" id="name">
+        </div>
+        <div class="formDiv">
+            <label for="name">Email:</label>
+            <input type="email" name="email" id="name">
         </div>
         <div class="formDiv second">
             <label for="password">Password:</label>
