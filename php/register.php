@@ -1,9 +1,10 @@
 <?php
+function registration()
+{
     if(isset($_POST['log']))
         {
-            function registration()
-            {
-                $name=filter_input(INPUT_POST,"name",FILTER_SANITIZE_SPECIAL_CHARS);
+            
+                $name=filter_input(INPUT_POST,"userName",FILTER_SANITIZE_SPECIAL_CHARS);
                 $email=filter_input(INPUT_POST,"email",FILTER_SANITIZE_EMAIL);
                 $password=filter_input(INPUT_POST,"password",FILTER_SANITIZE_SPECIAL_CHARS);
                 $checkpassword=filter_input(INPUT_POST,"password2",FILTER_SANITIZE_SPECIAL_CHARS);
@@ -12,7 +13,7 @@
                     echo "<p>please check your password</p>";
                     return;
                 }
-                if(!empty($name) || !empty($email) || !empty($password))
+                if(!empty($name) && !empty($email) && !empty($password))
                 {
                     function printError(String $err){
                         echo "<h1>The following error occured</h1>
@@ -28,7 +29,7 @@
                     {
                         try
                         {
-                            $stmt= $dbHandler->prepare("INSERT INTO `gemorskos`(`user_name`,`user_email`,`user_password`)
+                            $stmt= $dbHandler->prepare("INSERT INTO `users`(`user_name`,`user_email`,`user_password`)
                                                         VALUES (:nm,:em,:ps)");
                             $nm=$name;
                             $em=$email;
@@ -38,15 +39,22 @@
                             $stmt->bindParam("ps",$ps,PDO::PARAM_STR);
                             $stmt->execute();
                             $stmt->closeCursor();
+                            header("Location: register.php");
+                            exit;
                         }catch(Exception $ex)
                         {
                             printError($ex);
                         }
                     }
                     $dbHandler=null;
+                }else
+                {
+                    echo "<p>please fill all fields</p>";
+                    return;
                 }
-            }
+            
         }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
