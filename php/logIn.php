@@ -1,5 +1,5 @@
 <?php 
-
+session_start();
     function logIn()
     {
         if(isset($_POST['log']))
@@ -43,7 +43,8 @@
                         {
                             if($name==$username && $email==$useremail && $password==$userpassword)
                             {
-                                header("Location:logIn.php?reg=1");
+                                $_SESSION['check']=1;
+                                header("Location:logIn.php");
                                 exit;
                                 return;
                             }
@@ -53,8 +54,17 @@
                     }
                 }
             }
-            header("Location:logIn.php?reg=2");
+            $_SESSION['check']=2;
+            header("Location:logIn.php");
             exit;
+        }
+    }
+
+    function createTable()
+    {
+        if(isset($_POST['see']) && $_SESSION['check']=2)
+        {
+
         }
     }
 ?>
@@ -74,11 +84,10 @@
     <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
         <div class="centralDiv">
         <?php logIn(); 
-            $check=filter_input(INPUT_GET,"reg",FILTER_SANITIZE_SPECIAL_CHARS);
-            if($check == 1)
+            if($_SESSION['check'] == 1)
             {
                 echo "<p>you have successfully loged in</p>";
-            }else if($check == 2)
+            }else if($_SESSION['check'] == 2)
             {
                 echo "<p>some data is incorrect</p>";
             }
