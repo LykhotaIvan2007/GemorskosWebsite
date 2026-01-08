@@ -1,20 +1,52 @@
 <?php
-if(isset($_POST['log'])){
-    function printError(String $err){
-    echo "<h1>The following error occured</h1>
-          <p>{$err}</p>";
-}
-$dbHandler = null; 
-try{
-    $dbHandler = new PDO("mysql:host=localhost;port=3306;dbname=gemorskos;charset=utf8", "root", "root"); //Connect to the database with the provided connectstring
-}catch(Exception $ex){
-    printError($ex);
-}
-
-
-
-
-}
+    if(isset($_POST['log']))
+        {
+            function registration()
+            {
+                $name=filter_input(INPUT_POST,"name",FILTER_SANITIZE_SPECIAL_CHARS);
+                $email=filter_input(INPUT_POST,"email",FILTER_SANITIZE_EMAIL);
+                $password=filter_input(INPUT_POST,"password",FILTER_SANITIZE_SPECIAL_CHARS);
+                $checkpassword=filter_input(INPUT_POST,"password2",FILTER_SANITIZE_SPECIAL_CHARS);
+                if($password!==$checkpassword)
+                {
+                    echo "<p>please check your password</p>";
+                    return;
+                }
+                if(!empty($name) || !empty($email) || !empty($password))
+                {
+                    function printError(String $err){
+                        echo "<h1>The following error occured</h1>
+                        <p>{$err}</p>";
+                    }
+                    $dbHandler = null; 
+                    try{
+                        $dbHandler = new PDO("mysql:host=localhost;port=3306;dbname=gemorskos;charset=utf8", "root", "root"); //Connect to the database with the provided connectstring
+                    }catch(Exception $ex){
+                        printError($ex);
+                    }
+                    if($dbHandler)
+                    {
+                        try
+                        {
+                            $stmt= $dbHandler->prepare("INSERT INTO `gemorskos`(`user_name`,`user_email`,`user_password`)
+                                                        VALUES (:nm,:em,:ps)");
+                            $nm=$name;
+                            $em=$email;
+                            $ps=$password;
+                            $stmt->bindParam("nm",$nm,PDO::PARAM_STR);
+                            $stmt->bindParam("em",$em,PDO::PARAM_STR);
+                            $stmt->bindParam("ps",$ps,PDO::PARAM_STR);
+                            $stmt->execute();
+                            $stmt->closeCursor();
+                        }catch(Exception $ex)
+                        {
+                            printError($ex);
+                        }
+                    }
+                    $dbHandler=null;
+                }
+            }
+        }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,6 +63,7 @@ try{
     
     <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
         <div class="centralDiv">
+        <?php registration(); ?>
         <div class="formDiv">
             <label for="name">Username:</label>
             <input type="text" name="userName" id="name">
