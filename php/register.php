@@ -1,3 +1,21 @@
+<?php
+if(isset($_POST['log'])){
+    function printError(String $err){
+    echo "<h1>The following error occured</h1>
+          <p>{$err}</p>";
+}
+$dbHandler = null; 
+try{
+    $dbHandler = new PDO("mysql:host=localhost;port=3306;dbname=gemorskos;charset=utf8", "root", "root"); //Connect to the database with the provided connectstring
+}catch(Exception $ex){
+    printError($ex);
+}
+
+
+
+
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +28,7 @@
 </head>
 <body>
     <?php include 'header.php'; ?>
-
+    
     <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
         <div class="centralDiv">
         <div class="formDiv">
