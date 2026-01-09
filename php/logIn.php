@@ -1,5 +1,6 @@
 <?php 
 session_start();
+$_SESSION['check']=0;
 function printError(String $err)
 {
     echo "<p>the followed error occured</p>
@@ -63,9 +64,8 @@ function printError(String $err)
 
     function createTable()
     {
-        if(isset($_POST['see']))
+        if(isset($_POST['see']) && $_SESSION['check']==1)
         {
-            echo"qqqqqq";
              $dbHandler=null;
                 try
                 {
@@ -108,8 +108,7 @@ function printError(String $err)
                     }
                 }
                 
-                header("Location:logIn.php");
-                exit;
+                
         }
     }
 ?>
@@ -124,7 +123,7 @@ function printError(String $err)
     <title>Log In</title>
 </head>
 <body>
-    <?php include 'header.php'; ?>
+    <?php include 'header.php';?>
 
     <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
         <div class="centralDiv">
