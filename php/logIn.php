@@ -63,8 +63,9 @@ function printError(String $err)
 
     function createTable()
     {
-        if(isset($_POST['see']) && $_SESSION['check']==2)
+        if(isset($_POST['see']))
         {
+            echo"qqqqqq";
              $dbHandler=null;
                 try
                 {
@@ -93,11 +94,6 @@ function printError(String $err)
                                     <th>User Name</th>
                                     <th>Email</th>
                                 </tr>
-                                <tr>
-                                    <td>Иван</td>
-                                    <td>ivan@mail.com</td>
-                                    <td>25</td>
-                                
                                 ";
                         while($result=$stmt->fetch())
                         {
@@ -111,7 +107,7 @@ function printError(String $err)
                         $dbHandler=null;
                     }
                 }
-                echo "q";
+                
                 header("Location:logIn.php");
                 exit;
         }
@@ -141,6 +137,7 @@ function printError(String $err)
                 echo "<p>some data is incorrect</p>";
             }
         ?>
+        <?php createTable(); ?>
         <div class="formDiv">
             <label for="name">Username:</label>
             <input type="text" name="userName" id="name">
@@ -158,9 +155,9 @@ function printError(String $err)
         <button name="log" class="submitButton">Log in</button>
         <button name="see" class="submitButton q">Check all users</button>
         </div>
+        
     </form>
-
-    <?php include 'footer.php'; 
-    $_SESSION['check']=0;?>
+    
+    <?php include 'footer.php'; ?>
 </body>
 </html>
