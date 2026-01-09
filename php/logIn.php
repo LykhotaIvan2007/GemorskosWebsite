@@ -1,6 +1,9 @@
-<?php 
+<?php
 session_start();
-
+if(!isset($_SESSION['check']))
+{
+    $_SESSION['check']=0;
+}
 function printError(String $err)
 {
     echo "<p>the followed error occured</p>
@@ -46,8 +49,6 @@ function printError(String $err)
                             if($name==$username && $email==$useremail && $password==$userpassword)
                             {
                                 $_SESSION['check']=1;
-                                header("Location:logIn.php");
-                                exit;
                                 return;
                             }
                         }
@@ -57,8 +58,7 @@ function printError(String $err)
                 }
             }
             $_SESSION['check']=2;
-            header("Location:logIn.php");
-            exit;
+            
         }
     }
 
