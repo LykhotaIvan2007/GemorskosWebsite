@@ -1,5 +1,6 @@
 <?php 
 session_start();
+
     function logIn()
     {
         if(isset($_POST['log']))
@@ -111,6 +112,7 @@ session_start();
         </div>
     </form>
 
-    <?php include 'footer.php'; ?>
+    <?php include 'footer.php'; 
+    $_SESSION['check']=0;?>
 </body>
 </html>

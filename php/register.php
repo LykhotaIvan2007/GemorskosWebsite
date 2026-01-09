@@ -92,6 +92,7 @@ function registration()
         <button name="log" class="submitButton">Log in</button>
         
     </form>
+    
 
     <?php include 'footer.php'; ?>
 </body>
