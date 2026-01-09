@@ -1,6 +1,6 @@
 <?php 
 session_start();
-$_SESSION['check']=0;
+
 function printError(String $err)
 {
     echo "<p>the followed error occured</p>
