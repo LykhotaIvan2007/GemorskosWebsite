@@ -30,9 +30,17 @@ button{
     font-size: 25px;
     border: none;
     background-color: #DDE0A5;
+    width: 40%;
+    height: 50%;
+    margin-top: 5rem;
+}
+.q{
+    margin-top: 3rem;
+}
+.w{
     grid-column: 3/3;
     grid-row:2/3 ;
-    width: 30%;
-    height: 40%;
-    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    
 }

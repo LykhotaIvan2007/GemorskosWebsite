@@ -1,8 +1,10 @@
 <?php 
-    function log()
+
+    function logIn()
     {
         if(isset($_POST['log']))
         {
+        
             $name=filter_input(INPUT_POST,"userName",FILTER_SANITIZE_SPECIAL_CHARS);
             $email=filter_input(INPUT_POST,"email",FILTER_SANITIZE_EMAIL);
             $password=filter_input(INPUT_POST,"password",FILTER_SANITIZE_SPECIAL_CHARS);
@@ -41,16 +43,18 @@
                         {
                             if($name==$username && $email==$useremail && $password==$userpassword)
                             {
-                                echo "<p>you successfully registered</p>";
                                 header("Location:logIn.php?reg=1");
                                 exit;
                                 return;
                             }
                         }
                         $stmt->closeCursor();
+                        $dbHandler=null;
                     }
                 }
             }
+            header("Location:logIn.php?reg=2");
+            exit;
         }
     }
 ?>
@@ -69,11 +73,21 @@
 
     <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
         <div class="centralDiv">
+        <?php logIn(); 
+            $check=filter_input(INPUT_GET,"reg",FILTER_SANITIZE_SPECIAL_CHARS);
+            if($check == 1)
+            {
+                echo "<p>you have successfully loged in</p>";
+            }else if($check == 2)
+            {
+                echo "<p>some data is incorrect</p>";
+            }
+        ?>
         <div class="formDiv">
             <label for="name">Username:</label>
             <input type="text" name="userName" id="name">
         </div>
-        <div class="formDiv">
+        <div class="formDiv second">
             <label for="name">Email:</label>
             <input type="email" name="email" id="name">
         </div>
@@ -82,8 +96,10 @@
             <input type="password" name="password" id="password">
         </div>
         </div>
+        <div class="w">
         <button name="log" class="submitButton">Log in</button>
-        
+        <button name="see" class="submitButton q">Check all users</button>
+        </div>
     </form>
 
     <?php include 'footer.php'; ?>
