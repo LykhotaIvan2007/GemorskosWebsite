@@ -49,8 +49,6 @@ function registration()
                                     return;
                                 }
                             }
-                            $stmt->closeCursor();
-                            $dbHandler=null;
                         }
                     }
                     if($dbHandler)
