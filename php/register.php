@@ -29,6 +29,34 @@ function registration()
                     {
                         try
                         {
+                            $stmt = $dbHandler->prepare("SELECT *
+                                                        FROM `users`");
+                        }catch(Exception $ex)
+                        {
+                            printError($ex);
+                        }
+                        if(isset($stmt))
+                        {
+                            $stmt->bindColumn("user_name",$username);
+                            $stmt->bindColumn("user_email",$useremail);
+                            $stmt->bindColumn("user_password",$userpassword);
+                            $stmt->execute();
+                            while($result=$stmt->fetch())
+                            {
+                                if($name == $username || $email == $useremail)
+                                {
+                                    echo "this name or email is alredy used";
+                                    return;
+                                }
+                            }
+                            $stmt->closeCursor();
+                            $dbHandler=null;
+                        }
+                    }
+                    if($dbHandler)
+                    {
+                        try
+                        {
                             $stmt= $dbHandler->prepare("INSERT INTO `users`(`user_name`,`user_email`,`user_password`)
                                                         VALUES (:nm,:em,:ps)");
                             $nm=$name;
