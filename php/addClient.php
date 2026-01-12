@@ -74,7 +74,7 @@ if(!isset($_SESSION['messageAdd']))
                         $stmt->bindParam("pn",$telephone,PDO::PARAM_STR);
                         $stmt->bindParam("em",$email,PDO::PARAM_STR);
                         $stmt->execute();
-                        $stmt->cluseCursor();
+                        $stmt->closeCursor();
                         $dbHandler=null;
                         $_SESSION['messageAdd']=3;
                     }catch(Exception $ex)
@@ -102,7 +102,11 @@ if(!isset($_SESSION['messageAdd']))
 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
     <div class="centralDiv">
         <?php 
-        addUser();
+        if(isset($_POST['addClient']))
+        {
+            addUser();
+        }
+        
         switch($_SESSION['messageAdd'])
         {
             case 1:
