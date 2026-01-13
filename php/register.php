@@ -65,8 +65,9 @@ function registration()
                             $stmt->bindParam("ps",$ps,PDO::PARAM_STR);
                             $stmt->execute();
                             $stmt->closeCursor();
-                            header("Location: register.php");
-                            exit;
+                            $dbHandler=null;
+                            echo "You have successfully created new user";
+                            return;
                         }catch(Exception $ex)
                         {
                             printError($ex);
