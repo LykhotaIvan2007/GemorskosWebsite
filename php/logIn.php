@@ -5,6 +5,8 @@ if(!isset($_SESSION['check']))
     $_SESSION['check']=0;
 }
 $_SESSION['messageAdd']=0;
+if($_SERVER['REQUEST_METHOD']=='POST')
+{
 if(isset($_POST['adc']) && $_SESSION['check']==1)
         {
           header("Location: addClient.php");
@@ -17,8 +19,7 @@ function printError(String $err)
     echo "<p>the followed error occured</p>
             <p>{$err}</p>";
 }
-    function logIn()
-    {
+    
         if(isset($_POST['log']))
         {
             if($_SESSION['check']==1)
@@ -62,6 +63,8 @@ function printError(String $err)
                             if($name==$username && $email==$useremail && $password==$userpassword)
                             {
                                 $_SESSION['check']=1;
+                                header("Location: logIn.php");
+                                exit;
                                 return;
                             }
                         }
@@ -74,16 +77,19 @@ function printError(String $err)
             header("Location: logIn.php");
             exit;
         }
-    }
+    
 
-    function createTable()
-    {
+    
         if(isset($_POST['see']) && $_SESSION['check']==1)
         {
           header("Location: check.php");
           exit;         
         }
-    }
+
+    header("Location:logIn.php");
+    exit;
+}    
+ 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -100,7 +106,7 @@ function printError(String $err)
 
     <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
         <div class="centralDiv">
-        <?php logIn(); 
+        <?php 
             if($_SESSION['check'] == 1)
             {
                 echo "<p>you have successfully loged in</p>";
@@ -109,7 +115,7 @@ function printError(String $err)
                 echo "<p>some data is incorrect</p>";
             }
         ?>
-        <?php createTable(); ?>
+        
         <div class="formDiv">
             <label for="name">Username:</label>
             <input type="text" name="userName" id="name">
