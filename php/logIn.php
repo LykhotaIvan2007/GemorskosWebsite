@@ -4,6 +4,14 @@ if(!isset($_SESSION['check']))
 {
     $_SESSION['check']=0;
 }
+
+if(isset($_POST['adc']) && $_SESSION['check']==1)
+        {
+          header("Location: addClient.php");
+          exit;         
+        }
+
+
 function printError(String $err)
 {
     echo "<p>the followed error occured</p>
@@ -13,6 +21,11 @@ function printError(String $err)
     {
         if(isset($_POST['log']))
         {
+            if($_SESSION['check']==1)
+            {
+                header("Location: logIn.php");
+                exit;
+            }
         
             $name=filter_input(INPUT_POST,"userName",FILTER_SANITIZE_SPECIAL_CHARS);
             $email=filter_input(INPUT_POST,"email",FILTER_SANITIZE_EMAIL);
@@ -58,7 +71,8 @@ function printError(String $err)
                 }
             }
             $_SESSION['check']=2;
-            
+            header("Location: logIn.php");
+            exit;
         }
     }
 
@@ -111,7 +125,8 @@ function printError(String $err)
         </div>
         <div class="w">
         <button name="log" class="submitButton">Log in</button>
-        <button name="see" class="submitButton q">Check all users</button>
+        <button name="see" class="submitButton q">Check all clients</button>
+        <button name="adc" class="submitButton q">Add client</button>
         </div>
         
     </form>
