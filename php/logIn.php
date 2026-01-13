@@ -4,7 +4,7 @@ if(!isset($_SESSION['check']))
 {
     $_SESSION['check']=0;
 }
-
+$_SESSION['messageAdd']=0;
 if(isset($_POST['adc']) && $_SESSION['check']==1)
         {
           header("Location: addClient.php");
