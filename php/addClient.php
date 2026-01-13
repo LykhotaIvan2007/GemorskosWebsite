@@ -15,7 +15,7 @@ if(!isset($_SESSION['messageAdd']))
 
                     if(empty($name) || empty($company) || empty($telephone) || empty($email))
                     {
-                        $_SESSION['message']=1;
+                        $_SESSION['messageAdd']=1;
                         header("Location:addClient.php");
                         exit;
                         return;
@@ -49,7 +49,7 @@ if(!isset($_SESSION['messageAdd']))
                             $stmt->execute();
                             while($result=$stmt->fetch())
                             {
-                              if($client_email==$client_email)
+                              if($client_email==$email)
                                 {
                                     $_SESSION['messageAdd']=2;
                                     header("Location:addClient.php");
@@ -111,7 +111,7 @@ if(!isset($_SESSION['messageAdd']))
         {
             case 1:
                 {
-                    echo "some data is incorrect";
+                    echo "some data is incorrect or some fields is empty";
                     break;
                 }
             case 2:
