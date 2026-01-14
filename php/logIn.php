@@ -4,6 +4,10 @@ if(!isset($_SESSION['check']))
 {
     $_SESSION['check']=0;
 }
+if(!isset($_SESSION['logMessage']))
+{
+    $_SESSION['logMessage']=0;
+}
 $_SESSION['messageAdd']=0;
 if($_SERVER['REQUEST_METHOD']=='POST')
 {
@@ -73,7 +77,7 @@ function printError(String $err)
                     }
                 }
             }
-            $_SESSION['check']=2;
+            $_SESSION['logMessage']=2;
             header("Location: logIn.php");
             exit;
         }
@@ -110,10 +114,11 @@ function printError(String $err)
             if($_SESSION['check'] == 1)
             {
                 echo "<p>you have successfully loged in</p>";
-            }else if($_SESSION['check'] == 2)
+            }else if($_SESSION['logMessage'] == 2)
             {
-                echo "<p>some data is incorrect</p>";
+                echo "<p>Username, email or password are incorrect</p>";
             }
+            $_SESSION['logMessage']=0;
         ?>
         
         <div class="formDiv">

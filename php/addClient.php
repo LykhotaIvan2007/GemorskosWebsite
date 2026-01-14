@@ -124,6 +124,7 @@ if(!isset($_SESSION['messageAdd']))
                 }
 
         }
+        $_SESSION['messageAdd']=0;
         ?>
         <div class="formDiv">
             <label for="name">Name:</label>
