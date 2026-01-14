@@ -4,7 +4,7 @@ if(!isset($_SESSION['messageAdd']))
 {
     $_SESSION['messageAdd']=0;
 }
-            function addUser()
+            if($_SERVER['REQUEST_METHOD']=='POST')
             {
                 if(isset($_POST['addClient']))
                 {
@@ -84,7 +84,8 @@ if(!isset($_SESSION['messageAdd']))
                 }
                 header("Location:addClient.php");
                 exit;
-            }
+            } 
+            
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -102,10 +103,7 @@ if(!isset($_SESSION['messageAdd']))
 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
     <div class="centralDiv">
         <?php 
-        if(isset($_POST['addClient']))
-        {
-            addUser();
-        }
+        
         
         switch($_SESSION['messageAdd'])
         {
