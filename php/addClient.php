@@ -119,7 +119,7 @@ if(!isset($_SESSION['messageAdd']))
                 }
             case 3:
                 {
-                    echo "you successfully created new client";
+                    echo "you successfully added new client";
                     break;
                 }
 

@@ -15,6 +15,9 @@ if(isset($_POST['adc']) && $_SESSION['check']==1)
         {
           header("Location: addClient.php");
           exit;         
+        }else if(isset($_POST['adc']) && $_SESSION['check']!=1)
+        {
+            $_SESSION['logMessage']=3;
         }
 
 
@@ -88,6 +91,9 @@ function printError(String $err)
         {
           header("Location: check.php");
           exit;         
+        }else if(isset($_POST['see']) && $_SESSION['check']!=1)
+        {
+            $_SESSION['logMessage']=3;
         }
 
     header("Location:logIn.php");
@@ -113,10 +119,13 @@ function printError(String $err)
         <?php 
             if($_SESSION['check'] == 1)
             {
-                echo "<p>you have successfully loged in</p>";
+                echo "<p>You have successfully loged in</p>";
             }else if($_SESSION['logMessage'] == 2)
             {
                 echo "<p>Username, email or password are incorrect</p>";
+            }else if($_SESSION['logMessage']==3)
+            {
+                echo "<p>To  work with clients you need to be logged in</p>";
             }
             $_SESSION['logMessage']=0;
         ?>
