@@ -10,7 +10,7 @@ if(!isset($_SESSION['messageAdd']))
                 {
                     $name=filter_input(INPUT_POST,"userName",FILTER_SANITIZE_SPECIAL_CHARS);
                     $company=filter_input(INPUT_POST,"company",FILTER_SANITIZE_SPECIAL_CHARS);
-                    $telephone=filter_input(INPUT_POST,"telephone",FILTER_SANITIZE_SPECIAL_CHARS);
+                    $telephone=filter_input(INPUT_POST,"telephone",FILTER_SANITIZE_NUMBER_INT);
                     $email=filter_input(INPUT_POST,"email",FILTER_SANITIZE_EMAIL);
 
                     if(empty($name) || empty($company) || empty($telephone) || empty($email))
