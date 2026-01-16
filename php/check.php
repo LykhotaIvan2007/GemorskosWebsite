@@ -1,50 +1,19 @@
 <?php
-// check.php (no $_GET, no querystring; uses SESSION + PRG to prevent resubmit on reload)
 
+declare(strict_types=1);
+
+
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
+ob_start();
 session_start();
 
-// ----------------------------
-// POST/Redirect/GET (no GET params, no $_GET usage)
-// ----------------------------
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    // Show all
-    if (isset($_POST['show'])) {
-        $_SESSION['mode'] = 'all';
-        unset($_SESSION['search_term']);
-        header("Location: check.php"); // redirect clears POST
-        exit;
-    }
-
-    // Search
-    if (isset($_POST['search'])) {
-        $q = trim((string)($_POST['searchName'] ?? ''));
-
-        if ($q === '') {
-            $_SESSION['mode'] = 'all';
-            unset($_SESSION['search_term']);
-        } else {
-            $_SESSION['mode'] = 'search';
-            $_SESSION['search_term'] = $q;
-        }
-
-        header("Location: check.php"); // redirect clears POST
-        exit;
-    }
-
-    header("Location: check.php");
-    exit;
-}
-
-// Defaults on first load
-if (!isset($_SESSION['mode'])) {
-    $_SESSION['mode'] = 'all';
-}
 
 function getDb(): PDO
 {
     return new PDO(
-        "mysql:host=localhost;port=3306;dbname=gemorskos;charset=utf8",
+        "mysql:host=localhost;port=3306;dbname=gemorskos;charset=utf8mb4",
         "root",
         "root",
         [
@@ -54,18 +23,90 @@ function getDb(): PDO
     );
 }
 
+
+function downloadExcel(string $mode, string $term = ''): void
+{
+    
+    while (ob_get_level() > 0) {
+        ob_end_clean();
+    }
+
+    try {
+        $db = getDb();
+
+        if ($mode === 'search' && trim($term) !== '') {
+            $stmt = $db->prepare("
+                SELECT client_name, client_company, client_phone, client_email
+                FROM clients
+                WHERE client_name    LIKE :wd
+                   OR client_company LIKE :wd
+                   OR client_phone   LIKE :wd
+                   OR client_email   LIKE :wd
+                ORDER BY client_name
+            ");
+            $stmt->bindValue(':wd', '%' . $term . '%', PDO::PARAM_STR);
+            $stmt->execute();
+        } else {
+            $stmt = $db->query("
+                SELECT client_name, client_company, client_phone, client_email
+                FROM clients
+                ORDER BY client_name
+            ");
+        }
+
+        $filename = 'clients_' . date('Y-m-d_H-i-s') . '.xls';
+        header('Content-Type: application/vnd.ms-excel; charset=utf-8');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Pragma: public');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+
+        echo "\xEF\xBB\xBF";
+
+        echo "<table border='1'>";
+        echo "<tr>
+                <th>Name</th>
+                <th>Company name</th>
+                <th>Phone</th>
+                <th>Email</th>
+              </tr>";
+
+        while ($row = $stmt->fetch()) {
+            echo "<tr>
+                    <td>" . htmlspecialchars((string)$row['client_name']) . "</td>
+                    <td>" . htmlspecialchars((string)$row['client_company']) . "</td>
+                    <td>" . htmlspecialchars((string)$row['client_phone']) . "</td>
+                    <td>" . htmlspecialchars((string)$row['client_email']) . "</td>
+                  </tr>";
+        }
+
+        echo "</table>";
+        exit;
+
+    } catch (Exception $ex) {
+        header('Content-Type: text/plain; charset=utf-8');
+        echo "Download error: " . $ex->getMessage();
+        exit;
+    }
+}
+
+
 function createTable(): void
 {
     try {
         $db = getDb();
-        $stmt = $db->query("SELECT client_name, client_company, client_phone, client_email FROM clients");
+        $stmt = $db->query("
+            SELECT client_name, client_company, client_phone, client_email
+            FROM clients
+            ORDER BY client_name
+        ");
 
         while ($row = $stmt->fetch()) {
             echo "<tr>
-                    <td>" . htmlspecialchars($row['client_name']) . "</td>
-                    <td>" . htmlspecialchars($row['client_company']) . "</td>
-                    <td>" . htmlspecialchars($row['client_phone']) . "</td>
-                    <td>" . htmlspecialchars($row['client_email']) . "</td>
+                    <td>" . htmlspecialchars((string)$row['client_name']) . "</td>
+                    <td>" . htmlspecialchars((string)$row['client_company']) . "</td>
+                    <td>" . htmlspecialchars((string)$row['client_phone']) . "</td>
+                    <td>" . htmlspecialchars((string)$row['client_email']) . "</td>
                   </tr>";
         }
     } catch (Exception $ex) {
@@ -90,8 +131,8 @@ function searchTable(string $word): void
                OR client_company LIKE :wd
                OR client_phone   LIKE :wd
                OR client_email   LIKE :wd
+            ORDER BY client_name
         ");
-
         $stmt->bindValue(':wd', "%{$word}%", PDO::PARAM_STR);
         $stmt->execute();
 
@@ -99,10 +140,10 @@ function searchTable(string $word): void
         while ($row = $stmt->fetch()) {
             $any = true;
             echo "<tr>
-                    <td>" . htmlspecialchars($row['client_name']) . "</td>
-                    <td>" . htmlspecialchars($row['client_company']) . "</td>
-                    <td>" . htmlspecialchars($row['client_phone']) . "</td>
-                    <td>" . htmlspecialchars($row['client_email']) . "</td>
+                    <td>" . htmlspecialchars((string)$row['client_name']) . "</td>
+                    <td>" . htmlspecialchars((string)$row['client_company']) . "</td>
+                    <td>" . htmlspecialchars((string)$row['client_phone']) . "</td>
+                    <td>" . htmlspecialchars((string)$row['client_email']) . "</td>
                   </tr>";
         }
 
@@ -114,7 +155,56 @@ function searchTable(string $word): void
     }
 }
 
-$mode = $_SESSION['mode'] ?? 'all';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = (string)($_POST['action'] ?? '');
+
+    if ($action === 'download') {
+        $typed = trim((string)($_POST['searchName'] ?? ''));
+
+        $mode = $_SESSION['mode'] ?? 'all';
+        $term = (string)($_SESSION['search_term'] ?? '');
+
+        if ($typed !== '') {
+            $mode = 'search';
+            $term = $typed;
+        }
+
+        downloadExcel($mode, $term);
+    }
+
+    if ($action === 'show') {
+        $_SESSION['mode'] = 'all';
+        unset($_SESSION['search_term']);
+        header("Location: check.php");
+        exit;
+    }
+
+    if ($action === 'search') {
+        $q = trim((string)($_POST['searchName'] ?? ''));
+
+        if ($q === '') {
+            $_SESSION['mode'] = 'all';
+            unset($_SESSION['search_term']);
+        } else {
+            $_SESSION['mode'] = 'search';
+            $_SESSION['search_term'] = $q;
+        }
+
+        header("Location: check.php");
+        exit;
+    }
+
+    header("Location: check.php");
+    exit;
+}
+
+
+if (!isset($_SESSION['mode'])) {
+    $_SESSION['mode'] = 'all';
+}
+
+$mode = (string)($_SESSION['mode'] ?? 'all');
 $term = (string)($_SESSION['search_term'] ?? '');
 ?>
 <!DOCTYPE html>
@@ -133,8 +223,9 @@ $term = (string)($_SESSION['search_term'] ?? '');
 <div class="centr">
     <form action="check.php" method="POST">
         <input type="text" placeholder="search client" name="searchName" value="<?= htmlspecialchars($term) ?>">
-        <button type="submit" name="search">search</button>
-        <button type="submit" name="show">show all clients</button>
+        <button type="submit" name="action" value="search">search</button>
+        <button type="submit" name="action" value="show">show all clients</button>
+        <button type="submit" name="action" value="download">download</button>
     </form>
 </div>
 
@@ -148,11 +239,11 @@ $term = (string)($_SESSION['search_term'] ?? '');
         </tr>
 
         <?php
-            if ($mode === 'search') {
-                searchTable($term);
-            } else {
-                createTable();
-            }
+        if ($mode === 'search') {
+            searchTable($term);
+        } else {
+            createTable();
+        }
         ?>
     </table>
 </div>
